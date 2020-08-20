@@ -1,13 +1,19 @@
-<as-split direction="horizontal">
-	<as-split-area [size]="50">
+<as-split direction="horizontal" unit="percent" [direction]="direction" (dragEnd)="dragEnd('percent', $event)" #split="asSplit">
+	<as-split-area [size]="50"  #area1="asSplitArea">
 		<form [formGroup]="form" (ngSubmit)="submit()">
 			<formly-form [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>
-			<button type="submit" class="btn btn-primary submit-button" [disabled]="!form.valid">Submit</button>
+			
 		</form>
 	</as-split-area>
-	<as-split-area [size]="50">
-		<ace-editor [(text)]="code" readonly=true style="height:600px;"></ace-editor>
-	</as-split-area>
+	<as-split-area [size]="50"  #area2="asSplitArea">
+		<ace-editor [(text)]="code" readonly=true style="height:550px;"></ace-editor>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+			<formly-form [model]="model" [fields]="fieldSku" [options]="options" [form]="form"></formly-form>
+			<button type="submit" class="btn btn-primary submit-button" [disabled]="!form.valid">Create SKU</button>
+		</form>
+    
+  </as-split-area>
 </as-split>
 
 
