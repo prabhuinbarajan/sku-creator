@@ -37,6 +37,7 @@ export class AppComponent {
       "activationType": "INSTANT_ISSUE",
       "expirationType": "ROLLING",
       "expirationRolling": 0,
+      "expirationStatic": '2020-04-04',
       "serviceCode": "OCS"
     },
     "fulfillment": {
@@ -75,6 +76,12 @@ export class AppComponent {
     delete newModel.fulfillment.FYS_ClientID;
     delete newModel.fulfillment.FYS_RetailerID;
     delete newModel.fulfillment.FYS_ProgramID;
+
+    if(newModel.card.expirationType == 'STATIC') {
+      delete newModel.card.expirationRolling;
+    }else {
+      delete newModel.card.expirationStatic;
+    }
 
     return JSON.stringify(newModel, null, 2);
   }
@@ -192,7 +199,7 @@ export class AppComponent {
                 label: 'expirationType',
                 options: [
                   {label: 'ROLLING', value: 'ROLLING'},
-                  {label: '60', value: '60'},
+                  {label: 'STATIC', value: 'STATIC'},
 
                 ]
             }
@@ -216,6 +223,27 @@ export class AppComponent {
               //console.log(model)
               if (this.model.card) {
                 return this.model.card.expirationType !== 'ROLLING' 
+                //return formState.mainModel.card.expirationType !== "ROLLING"
+              }
+              return true;
+            },
+          },
+          {
+            key: 'expirationStatic',
+            type: 'input',
+            templateOptions: {
+                required: true,
+                label: 'expirationStatic',
+                templateOptions: {
+                  type: 'date',
+                },
+            },
+            hideExpression: (model: any, formState: any) => {
+              // access to the main model can be through `this.model` or `formState`
+              //if (formState.mainModel && formState.mainModel.card) {
+              //console.log(model)
+              if (this.model.card) {
+                return this.model.card.expirationType !== 'STATIC' 
                 //return formState.mainModel.card.expirationType !== "ROLLING"
               }
               return true;
