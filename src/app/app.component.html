@@ -1,8 +1,14 @@
-<form [formGroup]="form" (ngSubmit)="submit()">
-  <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>
-  <button type="submit" class="btn btn-primary submit-button" [disabled]="!form.valid">Submit</button>
-</form>
-<ace-editor [(text)]="code" readonly=true style="height:400px;"></ace-editor>
+<as-split direction="horizontal">
+	<as-split-area [size]="50">
+		<form [formGroup]="form" (ngSubmit)="submit()">
+			<formly-form [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>
+			<button type="submit" class="btn btn-primary submit-button" [disabled]="!form.valid">Submit</button>
+		</form>
+	</as-split-area>
+	<as-split-area [size]="50">
+		<ace-editor [(text)]="code" readonly=true style="height:600px;"></ace-editor>
+	</as-split-area>
+</as-split>
 
 
 

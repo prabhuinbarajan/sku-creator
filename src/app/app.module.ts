@@ -10,6 +10,8 @@ import { GridTypeComponent } from "./grid.type";
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { AceEditorModule } from 'ng2-ace-editor';
 import { GridFormlyCellComponent } from "./grid-formly-cell.component";
+import { AngularSplitModule } from 'angular-split';
+
 
 @NgModule({
   imports: [
@@ -18,6 +20,7 @@ import { GridFormlyCellComponent } from "./grid-formly-cell.component";
     FormlyBootstrapModule,
     NgxJsonViewerModule,
     AceEditorModule,
+    AngularSplitModule.forRoot(),
     AgGridModule.withComponents([GridFormlyCellComponent]),
     FormlyBootstrapModule,
     FormlyModule.forRoot({
