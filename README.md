@@ -1,3 +1,3 @@
-# angular-gntpfg
+# sku creator
 
 [Edit on StackBlitz ⚡️](https://stackblitz.com/edit/angular-gntpfg)
