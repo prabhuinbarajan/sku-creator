@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core/';
 
+//"fulfillmentInstruction": "<![CDATA[PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxGWVNfRGF0YUVudmVsb3BlPjxDb25maWd1cmF0aW9uPjxTZW5kZXJJbmZvcm1hdGlvbiBGWVNfQ2xpZW50SUQ9IjY4NTIiLz48L0NvbmZpZ3VyYXRpb24+PERvY3VtZW50cz48RG9jdW1lbnQ+PEdpZnRDYXJkIEZZU19SZXRhaWxlcklEPSI2MDMwMDAwODk2OSIgRllTX1Byb2dyYW1JRD0iMjQ5NzgiLz48L0RvY3VtZW50PjwvRG9jdW1lbnRzPjwvRllTX0RhdGFFbnZlbG9wZT4=]]>",
+
 @Component({
   selector: 'formly-app-example',
   templateUrl: './app.component.html',
@@ -22,7 +24,9 @@ export class AppComponent {
     },
     "fulfillment": {
       "fulfillmentPartner": "ARROWEYE",
-      "fulfillmentInstruction": "<![CDATA[PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxGWVNfRGF0YUVudmVsb3BlPjxDb25maWd1cmF0aW9uPjxTZW5kZXJJbmZvcm1hdGlvbiBGWVNfQ2xpZW50SUQ9IjY4NTIiLz48L0NvbmZpZ3VyYXRpb24+PERvY3VtZW50cz48RG9jdW1lbnQ+PEdpZnRDYXJkIEZZU19SZXRhaWxlcklEPSI2MDMwMDAwODk2OSIgRllTX1Byb2dyYW1JRD0iMjQ5NzgiLz48L0RvY3VtZW50PjwvRG9jdW1lbnRzPjwvRllTX0RhdGFFbnZlbG9wZT4=]]>",
+      "FYS_ClientID": "6852",
+      "FYS_RetailerID":"60300008969",
+      "FYS_ProgramID":"24978",
       "cardImageFrontURL": "https~++bes%2Dfenton%2Ddevqa%2Dcard%2Dimages-s3-amazonaws-com+original+20191017110948_CardImageASI-jpg",
       "nameOnCard": "GIFT FOR YOU",
       "imageUrls": [
@@ -41,6 +45,24 @@ export class AppComponent {
       ]
     }
   };
+
+  get code () {
+    /**
+     <?xml version="1.0" encoding="UTF-8" standalone="yes"?><FYS_DataEnvelope><Configuration><SenderInformation FYS_ClientID="6852"/></Configuration><Documents><Document><GiftCard FYS_RetailerID="60300008969" FYS_ProgramID="24978"/></Document></Documents></FYS_DataEnvelope>
+    */
+    var fulfillmentInstructionPlain = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><FYS_DataEnvelope><Configuration><SenderInformation FYS_ClientID="${this.model.fulfillment.FYS_ClientID}"/></Configuration><Documents><Document><GiftCard FYS_RetailerID="${this.model.fulfillment.FYS_RetailerID}" FYS_ProgramID="${this.model.fulfillment.c}"/></Document></Documents></FYS_DataEnvelope>`
+
+    let newModel = JSON.parse(JSON.stringify(this.model))
+
+    newModel.fulfillmentInstruction = '<![CDATA['+btoa(fulfillmentInstructionPlain)+']]>'
+    delete newModel.fulfillment.FYS_ClientID;
+    delete newModel.fulfillment.FYS_RetailerID;
+    delete newModel.fulfillment.FYS_ProgramID;
+
+    return JSON.stringify(newModel, null, 2);
+  }
+
+  
 
   options: FormlyFormOptions = {};
 
@@ -152,7 +174,7 @@ export class AppComponent {
             hideExpression: (model: any, formState: any) => {
               // access to the main model can be through `this.model` or `formState`
               //if (formState.mainModel && formState.mainModel.card) {
-              console.log(model)
+              //console.log(model)
               if (this.model.card) {
                 return this.model.card.expirationType !== 'ROLLING' 
                 //return formState.mainModel.card.expirationType !== "ROLLING"
@@ -253,7 +275,6 @@ export class AppComponent {
   ];
 
   submit() {
-
     alert(JSON.stringify(this.model));
   }
 }
